@@ -1,18 +1,3 @@
-Hello, My Friends  
-Thank you for having interest in this repository ! 
-
-To use this application, 
-
-1. make dev.js file inside config folder 
-2. put mongoDB info into dev.js file 
-3. Type  " npm install " inside the root directory  ( Download Server Dependencies ) 
-4. Type " npm install " inside the client directory ( Download Front-end Dependencies )
-
-
-If you have problem, feel free to ask me ^^ 
-
-You can watch the tutorial for this app.
-
-https://www.youtube.com/channel/UCFyXA9x8lpL3EYWeYhj4C4Q?view_as=subscriber
-
-
+게시물 댓글 기능, 좋아요 기능에 집중하기 위해  
+일단은 react, react-router-dom 최신 버전이 아님  
+로그인과 로그아웃, 회원가입, 라우팅 등은 클론 받아 사용
