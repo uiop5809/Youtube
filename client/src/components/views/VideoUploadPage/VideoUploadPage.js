@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Typography, Button, Form, message, Input, Icon } from "antd";
+import { Typography, Button, Form, Input, Icon } from "antd";
 import Dropzone from "react-dropzone";
+import axios from "axios";
 
 const { Title } = Typography;
 const { TextArea } = Input;
@@ -36,15 +37,32 @@ function VideoUploadPage() {
     }
   };
 
+  const handleDrop = (files) => {
+    let formData = new FormData();
+    const config = {
+      header: { "content-type": "multipart/form-data" },
+    };
+    formData.append("file", files[0]);
+    console.log(files);
+
+    axios.post("/api/video/uploadfiles", formData, config).then((res) => {
+      if (res.data.success) {
+        console.log(res.data);
+      } else {
+        alert("비디오 업로드를 실패했습니다.");
+      }
+    });
+  };
+
   return (
     <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
       <div style={{ textAlign: "center", marginBottom: "2rem" }}>
         <Title level={2}> Upload Video</Title>
       </div>
-      <Form onSubmit>
+      <Form>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           {/* DropZone */}
-          <Dropzone onDrop multiple maxSize={800000000}>
+          <Dropzone onDrop={handleDrop} multiple={false} maxSize={800000000}>
             {({ getRootProps, getInputProps }) => (
               <div
                 style={{
@@ -65,7 +83,7 @@ function VideoUploadPage() {
 
           {/* Thumbnail */}
           <div>
-            <img src alt />
+            <img />
           </div>
         </div>
 
@@ -84,7 +102,7 @@ function VideoUploadPage() {
         <br />
         <br />
 
-        <select onChang={handleChange} name="private">
+        <select onChange={handleChange} name="private">
           {PrivateOptions.map((item, index) => (
             <option key={index} value={item.value}>
               {item.label}
@@ -104,7 +122,7 @@ function VideoUploadPage() {
 
         <br />
         <br />
-        <Button type="primary" size="large" onClick>
+        <Button type="primary" size="large">
           Submit
         </Button>
       </Form>
