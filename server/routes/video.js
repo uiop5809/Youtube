@@ -5,7 +5,7 @@ var ffmpeg = require("fluent-ffmpeg");
 
 const { Video } = require("../models/Video");
 // const { Subscriber } = require("../models/Subscriber");
-// const { auth } = require("../middleware/auth");
+const { auth } = require("../middleware/auth");
 
 var storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -56,6 +56,16 @@ router.get("/getVideos", (req, res) => {
     .exec((err, videos) => {
       if (err) return res.status(400).send(err);
       res.status(200).json({ success: true, videos });
+    });
+});
+
+// 비디오 상세 정보를 가져온다.
+router.post("/getVideoDetail", (req, res) => {
+  Video.findOne({ _id: req.body.videoId })
+    .populate("writer")
+    .exec((err, videoDetail) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true, videoDetail });
     });
 });
 
