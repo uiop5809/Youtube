@@ -23,7 +23,7 @@ var storage = multer.diskStorage({
   },
 });
 
-var upload = multer({ storage: storage }).single("file");
+const upload = multer({ storage: storage }).single("file");
 
 // 비디오를 서버에 저장
 router.post("/uploadfiles", (req, res) => {
@@ -46,6 +46,17 @@ router.post("/uploadVideo", (req, res) => {
     if (err) return res.json({ success: false, err });
     res.status(200).json({ success: true });
   });
+});
+
+// 비디오를 DB에서 가져와 클라이언트에 보낸다.
+router.get("/getVideos", (req, res) => {
+  // populate: writer의 모든 정보를 가져온다.
+  Video.find()
+    .populate("writer")
+    .exec((err, videos) => {
+      if (err) return res.status(400).send(err);
+      res.status(200).json({ success: true, videos });
+    });
 });
 
 router.post("/thumbnail", (req, res) => {
