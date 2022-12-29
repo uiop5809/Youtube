@@ -6,6 +6,7 @@ function Subscribe(props) {
   const [Subscribed, setSubscribed] = useState(false);
 
   useEffect(() => {
+    // 구독자 수 정보 가져오기
     const variable = { userTo: props.userTo };
     axios.post("/api/subscribe/subscribeNumber", variable).then((res) => {
       if (res.data.success) {
@@ -16,9 +17,10 @@ function Subscribe(props) {
       }
     });
 
+    // 구독 여부 정보 가져오기
     const subscribedVariable = {
       userTo: props.userTo,
-      userFrom: localStorage.getItem("userId"),
+      userFrom: props.userFrom,
     };
     axios.post("/api/subscribe/subscribed", subscribedVariable).then((res) => {
       if (res.data.success) {
@@ -29,6 +31,35 @@ function Subscribe(props) {
       }
     });
   }, []);
+
+  // 구독 버튼 클릭 시
+  const handleSubscribe = () => {
+    const subscribedVariable = {
+      userTo: props.userTo,
+      userFrom: props.userFrom,
+    };
+    // 이미 구독 중이라면
+    if (Subscribed) {
+      axios.post("/api/subscribe/unSubscribe").then((res) => {
+        if (res.data.success) {
+          setSubscribeNumber(SubscribeNumber - 1);
+          setSubscribed(!Subscribed);
+        } else {
+          alert("구독 취소 실패");
+        }
+      });
+    } // 아직 구독 중이 아니라면
+    else {
+      axios.post("/api/subscribe/subscribe").then((res) => {
+        if (res.data.success) {
+          setSubscribeNumber(SubscribeNumber + 1);
+          setSubscribed(!Subscribed);
+        } else {
+          alert("구독 실패");
+        }
+      });
+    }
+  };
 
   return (
     <div>
@@ -42,8 +73,9 @@ function Subscribe(props) {
           fontWeight: "500",
           fontSize: "1rem",
           textTransform: "uppercase",
+          cursor: "pointer",
         }}
-        onClick
+        onClick={handleSubscribe}
       >
         {SubscribeNumber} {Subscribed ? "Subscribed" : "Subscribe"}
       </button>
