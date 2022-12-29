@@ -7,13 +7,13 @@ const subscriberSchema = mongoose.Schema(
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    userForm: {
+    userFrom: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
   },
   { timestamps: true }
-); // 생성일, 수정일 자동으로 생성
+);
 
 const Subscriber = mongoose.model("Subscriber", subscriberSchema);
 

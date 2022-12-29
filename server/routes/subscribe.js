@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const { Subscriber } = require("../models/Subscriber");
+const { auth } = require("../middleware/auth");
 
 // 구독자 수 가져오기
 router.post("/subscribeNumber", (req, res) => {

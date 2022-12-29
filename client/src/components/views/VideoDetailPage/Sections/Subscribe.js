@@ -10,7 +10,6 @@ function Subscribe(props) {
     const variable = { userTo: props.userTo };
     axios.post("/api/subscribe/subscribeNumber", variable).then((res) => {
       if (res.data.success) {
-        console.log(res.data.subscribeNumber);
         setSubscribeNumber(res.data.subscribeNumber);
       } else {
         alert("구독자 수 정보를 받아오지 못했습니다.");
@@ -20,11 +19,11 @@ function Subscribe(props) {
     // 구독 여부 정보 가져오기
     const subscribedVariable = {
       userTo: props.userTo,
-      userFrom: props.userFrom,
+      userFrom: localStorage.getItem("userId"),
     };
     axios.post("/api/subscribe/subscribed", subscribedVariable).then((res) => {
       if (res.data.success) {
-        console.log(res.data.subscribed);
+        console.log(res.data);
         setSubscribed(res.data.subscribed);
       } else {
         alert("정보를 받아오지 못했습니다.");
@@ -40,17 +39,19 @@ function Subscribe(props) {
     };
     // 이미 구독 중이라면
     if (Subscribed) {
-      axios.post("/api/subscribe/unSubscribe").then((res) => {
-        if (res.data.success) {
-          setSubscribeNumber(SubscribeNumber - 1);
-          setSubscribed(!Subscribed);
-        } else {
-          alert("구독 취소 실패");
-        }
-      });
+      axios
+        .post("/api/subscribe/unSubscribe", subscribedVariable)
+        .then((res) => {
+          if (res.data.success) {
+            setSubscribeNumber(SubscribeNumber - 1);
+            setSubscribed(!Subscribed);
+          } else {
+            alert("구독 취소 실패");
+          }
+        });
     } // 아직 구독 중이 아니라면
     else {
-      axios.post("/api/subscribe/subscribe").then((res) => {
+      axios.post("/api/subscribe/subscribe", subscribedVariable).then((res) => {
         if (res.data.success) {
           setSubscribeNumber(SubscribeNumber + 1);
           setSubscribed(!Subscribed);
