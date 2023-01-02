@@ -55,7 +55,7 @@ function SingleComment(props) {
       <Comment
         actions={actions}
         author={props.comment.writer.name}
-        avatar={<Avatar src={props.comment.writer.image} alt />}
+        avatar={<Avatar src={props.comment.writer.image} />}
         content={<p>{props.comment.content}</p>}
       ></Comment>
 

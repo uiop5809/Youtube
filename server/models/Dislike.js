@@ -1,21 +1,24 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const dislikeSchema = mongoose.Schema({
-  userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
+const dislikeSchema = mongoose.Schema(
+  {
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    commentId: {
+      type: Schema.Types.ObjectId,
+      ref: "Comment",
+    },
+    videoId: {
+      type: Schema.Types.ObjectId,
+      ref: "Video",
+    },
   },
-  commentId: {
-    type: Schema.Types.ObjectId,
-    ref: "Comment",
-  },
-  videoId: {
-    type: Schema.Types.ObjectId,
-    ref: "Video",
-  },
-});
+  { timestamps: true }
+);
 
-const DisLike = mongoose.model("DisLike", dislikeSchema);
+const Dislike = mongoose.model("Dislike", dislikeSchema);
 
-module.exports = { DisLike };
+module.exports = { Dislike };
